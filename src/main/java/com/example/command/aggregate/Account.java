@@ -9,22 +9,41 @@ import org.axonframework.modelling.command.AggregateLifecycle;
 import org.axonframework.spring.stereotype.Aggregate;
 
 import com.example.command.api.AccountCreatedEvent;
+import com.example.command.api.EmailAddressChangedEvent;
+import com.example.command.api.ChangeEmailAddressCommand;
 import com.example.command.api.CreateAccountCommand;
 
 @Aggregate
 public class Account {
     @AggregateIdentifier
-    public UUID accountId;
+    private UUID accountId;
+
+    private String emailAddress;
 
     Account(){}
 
     @CommandHandler
-    Account(CreateAccountCommand command){
+    public Account(CreateAccountCommand command){
         AggregateLifecycle.apply(new AccountCreatedEvent(command.getAccountId(), command.getEmailAddress()));
     }
 
-    @EventSourcingHandler
-    public void on(AccountCreatedEvent event){
-        this.accountId = event.getAccountId();
+    @CommandHandler
+    public void handle(ChangeEmailAddressCommand command){
+        if (!this.emailAddress.equals(command.getEmailAddress())) {
+            AggregateLifecycle.apply(new EmailAddressChangedEvent(command.getAccountId(), command.getEmailAddress()));
+        }
     }
+
+
+    @EventSourcingHandler
+    public void on (AccountCreatedEvent event){
+        this.accountId = event.getAccountId();
+        this.emailAddress = event.getEmailAddress();
+    }
+
+    @EventSourcingHandler
+    public void on(EmailAddressChangedEvent event){
+        this.emailAddress = event.getEmailAddress();
+    }
+
 }

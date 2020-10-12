@@ -1,9 +1,6 @@
 package com.example.command.api;
 
 import java.util.Objects;
-import java.util.UUID;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class AccountRequestData {
     private String emailAddress;
