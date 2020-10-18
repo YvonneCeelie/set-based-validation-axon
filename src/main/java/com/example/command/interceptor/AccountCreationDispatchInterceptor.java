@@ -11,7 +11,7 @@ import com.example.command.api.CreateAccountCommand;
 import com.example.command.persistence.EmailRepository;
 
 /**
- * Checks if account with same email address already exsists.
+ * Checks if account with same email address already exists.
  */
 @Component
 public class AccountCreationDispatchInterceptor implements MessageDispatchInterceptor<CommandMessage<?>> {

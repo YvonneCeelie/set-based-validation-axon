@@ -1,1 +1,1 @@
-com.example.command.resolver.EmailParameterResolverFactory
+com.example.command.resolver.EmailAlreadyExistsResolverFactory

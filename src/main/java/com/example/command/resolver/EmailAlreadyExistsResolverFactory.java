@@ -13,12 +13,12 @@ import com.example.command.api.ChangeEmailAddressCommand;
 import com.example.command.persistence.EmailRepository;
 
 @Component
-public class EmailParameterResolverFactory implements ParameterResolver<Boolean> ,ParameterResolverFactory {
+public class EmailAlreadyExistsResolverFactory implements ParameterResolver<Boolean> ,ParameterResolverFactory {
 
     private EmailRepository emailRepository;
 
     @Autowired
-    public EmailParameterResolverFactory(EmailRepository emailRepository) {
+    public EmailAlreadyExistsResolverFactory(EmailRepository emailRepository) {
         this.emailRepository = emailRepository;
     }
 
