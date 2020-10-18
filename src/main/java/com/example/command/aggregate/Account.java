@@ -12,6 +12,7 @@ import com.example.command.api.AccountCreatedEvent;
 import com.example.command.api.EmailAddressChangedEvent;
 import com.example.command.api.ChangeEmailAddressCommand;
 import com.example.command.api.CreateAccountCommand;
+import com.example.command.persistence.EmailJpaEntity;
 
 @Aggregate
 public class Account {
@@ -28,10 +29,12 @@ public class Account {
     }
 
     @CommandHandler
-    public void handle(ChangeEmailAddressCommand command){
-        if (!this.emailAddress.equals(command.getEmailAddress())) {
-            AggregateLifecycle.apply(new EmailAddressChangedEvent(command.getAccountId(), command.getEmailAddress()));
+    public void handle(ChangeEmailAddressCommand command, Boolean emailAddressExists){
+        if (emailAddressExists){
+            throw new IllegalStateException(String.format("Account with email address %s already exists",
+                                                          command.getEmailAddress()));
         }
+        AggregateLifecycle.apply(new EmailAddressChangedEvent(command.getAccountId(), command.getEmailAddress()));
     }
 
 

@@ -20,8 +20,11 @@ public class AccountEventHandler {
 
     @EventHandler
     public void on (EmailAddressChangedEvent event, EmailRepository emailRepository){
-        // Delete the former email address to make it possible to use that one again
-        emailRepository.delete(emailRepository.findEmailJpaEntityByAccountId(event.getAccountId()));
+        EmailJpaEntity emailJpaEntity = emailRepository.findEmailJpaEntityByAccountId(event.getAccountId());
+        if (emailJpaEntity != null) {
+            // Delete the former registered email address
+            emailRepository.delete(emailRepository.findEmailJpaEntityByAccountId(event.getAccountId()));
+        }
         emailRepository.save(new EmailJpaEntity(event.getEmailAddress(), event.getAccountId()));
     }
 
