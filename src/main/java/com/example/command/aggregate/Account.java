@@ -9,10 +9,12 @@ import org.axonframework.modelling.command.AggregateLifecycle;
 import org.axonframework.spring.stereotype.Aggregate;
 
 import com.example.command.api.AccountCreatedEvent;
+import com.example.command.api.AlterEmailAddressCommand;
 import com.example.command.api.EmailAddressChangedEvent;
 import com.example.command.api.ChangeEmailAddressCommand;
 import com.example.command.api.CreateAccountCommand;
 import com.example.command.persistence.EmailJpaEntity;
+import com.example.command.persistence.EmailRepository;
 
 @Aggregate
 public class Account {
@@ -31,6 +33,15 @@ public class Account {
     @CommandHandler
     public void handle(ChangeEmailAddressCommand command, Boolean emailAddressExists){
         if (emailAddressExists){
+            throw new IllegalStateException(String.format("Account with email address %s already exists",
+                                                          command.getEmailAddress()));
+        }
+        AggregateLifecycle.apply(new EmailAddressChangedEvent(command.getAccountId(), command.getEmailAddress()));
+    }
+
+    @CommandHandler
+    public void handle(AlterEmailAddressCommand command, EmailRepository emailRepository){
+        if (emailRepository.existsById(command.getEmailAddress())){
             throw new IllegalStateException(String.format("Account with email address %s already exists",
                                                           command.getEmailAddress()));
         }
