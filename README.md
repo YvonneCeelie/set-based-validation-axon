@@ -17,6 +17,7 @@ Subscribing processors will create and maintain a projection immediately after a
 Now that you have a lookup table you can check if the email address exists before applying the event. I implemented this in three different ways:
 
 1. By using a command message dispatcher which does a check on the CreateAccountCommand: https://github.com/YvonneCeelie/set-based-validation-axon/blob/main/src/main/java/com/example/command/interceptor/AccountCreationDispatchInterceptor.java
+A command message dispatch interceptor intecepts a command message before this command message is handled. If the command message is rejected it will not be handled and in this case no Account aggregate will be created.
 2. By using an external commandHandler that does this check for the RequestEmailChangeCommand: 
 https://github.com/YvonneCeelie/set-based-validation-axon/blob/main/src/main/java/com/example/command/handler/AccountCommandHandler.java
 3. By using a ParameterResolver that returns a Boolean value that returns true if the email already exists:
