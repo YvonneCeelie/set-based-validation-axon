@@ -14,6 +14,6 @@ jobs:
     - name: Slack Notification
       uses: rtCamp/action-slack-notify@v2
       with:
-          args: 'A new version has been released.'
+        args: 'A new version has been released.'
       env:
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
