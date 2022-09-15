@@ -12,8 +12,10 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Slack Notification
-      uses: rtCamp/action-slack-notify@v2
+      uses: adamkdean/simple-slack-notify@master
       with:
-        args: 'A new version has been released.'
+        fields: |
+          [{ "title": "Repository", "value": "${env.GITHUB_REPOSITORY}", "short": true },
+                 { "title": "Branch", "value": "${env.BRANCH}", "short": true }]
       env:
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
