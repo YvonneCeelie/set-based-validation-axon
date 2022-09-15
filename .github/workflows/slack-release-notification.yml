@@ -1,0 +1,19 @@
+name: Announce release on Slack
+
+on:
+  # Triggers the workflow on new release
+    release:
+      types: [ published ]
+
+jobs:
+  slackNotification:
+    name: Slack Notification
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Slack Notification
+      uses: rtCamp/action-slack-notify@v2
+      with:
+        message: ${{ release.name }} has been released
+      env:
+        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
