@@ -5,17 +5,19 @@ on:
     release:
       types: [ published ]
 
+
 jobs:
-  slackNotification:
-    name: Slack Notification
+  my-job:
+    name: Slack notification
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - name: Slack Notification
-      uses: adamkdean/simple-slack-notify@master
-      with:
-        fields: |
-          [{ "title": "Repository", "value": "${env.GITHUB_REPOSITORY}", "short": true },
-                 { "title": "Branch", "value": "${env.BRANCH}", "short": true }]
-      env:
-        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+      - name: Send release notification data to Slack workflow
+        id: slack
+        uses: slackapi/slack-github-action@v1.22.0
+        with:
+          payload: |
+            {
+              "release-name": "value",
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
