@@ -18,7 +18,7 @@ jobs:
           payload: |
             {
               "release-name": "${{ github.event.release.name }}",
-              "release-url" : "${{ github.event.release.url }}"
+              "release-url" : "${{ github.event.release.html_url }}"
             }
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
