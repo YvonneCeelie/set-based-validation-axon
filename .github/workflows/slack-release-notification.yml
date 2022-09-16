@@ -17,7 +17,7 @@ jobs:
         with:
           payload: |
             {
-              "release-name": "${{ github.event.release.name }}"
+              "release-name": "${{ github.event.release.name }}",
               "release-url" : "${{ github.event.release.url }}"
             }
         env:
